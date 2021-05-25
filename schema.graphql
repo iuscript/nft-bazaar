@@ -1,0 +1,11 @@
+type User @entity {
+  id: ID!
+}
+
+type Nft @entity {
+  id: ID!
+  tokenURI: String
+  createdAtTimestamp: BigInt!
+  createdAtBlockNumber: BigInt!
+  holder: User!
+}
