@@ -1,0 +1,28 @@
+{
+  "name": "nft-bazaar",
+  "version": "0.1.0",
+  "author": {
+    "name": "iuscript"
+  },
+  "scripts": {
+    "build-contract": "solc contracts/Gravity.sol --abi -o abis --overwrite && solc contracts/Gravity.sol --bin -o bin --overwrite",
+    "create": "graph create iuscript/nft-bazaar --node https://api.thegraph.com/deploy/",
+    "create-local": "graph create iuscript/nft-bazaar --node http://127.0.0.1:8020",
+    "codegen": "graph codegen --skip-migrations",
+    "build": "graph build",
+    "deploy": "graph deploy iuscript/nft-bazaar --skip-migrations --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token 48613d6f231b47088e6fe1d6df18791b",
+    "deploy-local": "graph deploy iuscript/nft-bazaar --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
+  },
+  "devDependencies": {
+    "@graphprotocol/graph-cli": "^0.20.0",
+    "@graphprotocol/graph-ts": "^0.20.0"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "truffle": "^5.0.4",
+    "truffle-contract": "^4.0.5",
+    "truffle-hdwallet-provider": "^1.0.4"
+  },
+  "license": "MIT"
+}
