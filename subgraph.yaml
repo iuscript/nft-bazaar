@@ -1,0 +1,27 @@
+specVersion: 0.0.2
+description: NFTBazaar for Ethereum
+repository: https://github.com/iuscript/nft-bazaar
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: NFTBazaar
+    network: kovan
+    source:
+      address: '0x0663b99715199d78850836Ba93dd479955E5105D'
+      abi: NFTBazaar
+      startBlock: 24888133
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Nft
+      abis:
+        - name: NFTBazaar
+          file: ./abis/NFTBazaar_sol_NFTBazaar.abi
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
