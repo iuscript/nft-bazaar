@@ -25,3 +25,26 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: NFTMarket
+    network: kovan
+    source:
+      address: '0xc839EB991094D611e08bc1C236f37551529aE534'
+      abi: NFTMarket
+      startBlock: 24925690
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Offer
+        - Order
+      abis:
+        - name: NFTMarket
+          file: ./abis/NFTMarket_sol_NftMarket.abi
+      eventHandlers:
+        - event: Offered(indexed uint256,uint256,address)
+          handler: handleOffered
+        - event: Bought(indexed address,indexed address,indexed uint256,uint256,address)
+          handler: handleBought
+      file: ./src/mapping.ts

@@ -9,4 +9,27 @@ type Nft @entity {
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!
   holder: User!
+  orderHistory: [Order!] @derivedFrom(field: "tokenID")
+}
+
+type Offer @entity {
+  id: ID!
+  seller: Bytes!
+  price: BigInt!
+  paymentToken: Bytes!
+  createdAtTimestamp: BigInt!
+  createdAtBlockNumber: BigInt!
+}
+
+type Order @entity {
+  # tokenID + "-" + Timestamp
+  id: ID!
+  seller: Bytes!
+  buyers: Bytes!
+  tokenID: Nft!
+  price: BigInt!
+  paymentToken: Bytes!
+  createdAtTimestamp: BigInt!
+  createdAtBlockNumber: BigInt!
+  transactionHash: Bytes!
 }
