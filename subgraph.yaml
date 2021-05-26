@@ -47,4 +47,6 @@ dataSources:
           handler: handleOffered
         - event: Bought(indexed address,indexed address,indexed uint256,uint256,address)
           handler: handleBought
+        - event: NoLongerForSale(indexed uint256)
+          handler: handleNoLongerForSale
       file: ./src/mapping.ts

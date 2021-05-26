@@ -1,6 +1,6 @@
 import { Address, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar } from '../generated/NFTBazaar/NFTBazaar'
-import { Bought, Offered } from '../generated/NFTMarket/NFTMarket'
+import { Bought, NoLongerForSale, Offered } from '../generated/NFTMarket/NFTMarket'
 import { User, Nft, Offer, Order } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
@@ -60,5 +60,9 @@ export function handleBought(event: Bought): void {
   order.transactionHash = event.transaction.hash
   order.save()
 
+  _removeOffer(event.params.tokenID.toHexString())
+}
+
+export function handleNoLongerForSale(event: NoLongerForSale): void {
   _removeOffer(event.params.tokenID.toHexString())
 }
