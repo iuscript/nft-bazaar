@@ -1,6 +1,6 @@
 type User @entity {
   id: ID!
-  tokens: [Nft!]! @derivedFrom(field: "holder")
+  tokens: [Nft!] @derivedFrom(field: "holder")
 }
 
 type Nft @entity {
