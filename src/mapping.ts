@@ -1,10 +1,14 @@
 import { Address, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar } from '../generated/NFTBazaar/NFTBazaar'
-import { Bought, Offered, Offered__Params } from '../generated/NFTMarket/NFTMarket'
+import { Bought, Offered } from '../generated/NFTMarket/NFTMarket'
 import { User, Nft, Offer, Order } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x0663b99715199d78850836Ba93dd479955E5105D'
+
+function _removeOffer(tokenID: string): void {
+  store.remove("Offer", tokenID)
+}
 
 export function handleTransfer(event: Transfer): void {
   let from     = event.params.from
@@ -40,6 +44,7 @@ export function handleOffered(event: Offered): void {
   offer.paymentToken = event.params.paymentToken
   offer.createdAtTimestamp = event.block.timestamp
   offer.createdAtBlockNumber = event.block.number
+  offer.transactionHash = event.transaction.hash
   offer.save()
 }
 
@@ -54,4 +59,6 @@ export function handleBought(event: Bought): void {
   order.createdAtBlockNumber = event.block.number
   order.transactionHash = event.transaction.hash
   order.save()
+
+  _removeOffer(event.params.tokenID.toHexString())
 }
