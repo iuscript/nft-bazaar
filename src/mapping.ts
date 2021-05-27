@@ -48,6 +48,18 @@ export function handleOffered(event: Offered): void {
   offer.createdAtBlockNumber = event.block.number
   offer.transactionHash = event.transaction.hash
   offer.save()
+
+  let market = Market.load(NFTMarket_ADDRSS)
+  if (market === null) {
+    market = new Market(NFTMarket_ADDRSS)
+    market.txCount = BigInt.fromI32(0)
+    market.offersCount = BigInt.fromI32(1)
+    market.volumeETH = BigInt.fromI32(0)
+    market.volumeUSD = BigInt.fromI32(0)
+  } else {
+    market.offersCount = market.offersCount.plus(BigInt.fromI32(1))
+  }
+  market.save()
 }
 
 export function handleBought(event: Bought): void {
@@ -66,27 +78,20 @@ export function handleBought(event: Bought): void {
 
   // update market total data
   let market = Market.load(NFTMarket_ADDRSS)
-  if (market === null) {
-    market = new Market(NFTMarket_ADDRSS)
-    market.txCount = BigInt.fromI32(1)
-    if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
-      market.volumeETH = event.params.price
-      market.volumeUSD = BigInt.fromI32(0)
-    } else {
-      market.volumeETH = BigInt.fromI32(0)
-      market.volumeUSD = event.params.price
-    }
+  market.txCount = market.txCount.plus(BigInt.fromI32(1))
+  market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
+  if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
+    market.volumeETH = market.volumeETH.plus(event.params.price)
   } else {
-    market.txCount = market.txCount.plus(BigInt.fromI32(1))
-    if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
-      market.volumeETH = market.volumeETH.plus(event.params.price)
-    } else {
-      market.volumeUSD = market.volumeUSD.plus(event.params.price)
-    }
+    market.volumeUSD = market.volumeUSD.plus(event.params.price)
   }
   market.save()
 }
 
 export function handleNoLongerForSale(event: NoLongerForSale): void {
   _removeOffer(event.params.tokenID.toHexString())
+
+  let market = Market.load(NFTMarket_ADDRSS)
+  market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
+  market.save()
 }

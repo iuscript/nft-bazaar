@@ -40,6 +40,7 @@ type Order @entity {
 type Market @entity {
   id: ID!
   txCount: BigInt!
+  offersCount: BigInt!
   volumeETH: BigInt!
   volumeUSD: BigInt!
 }
@@ -51,13 +52,9 @@ type DayData @entity {
   # date
   date: Int!
 
-  # NftBazaar
-  market: Market!
+  txCount: BigInt!
+  offersCount: BigInt!
 
-  # volume
   volumeETH: BigDecimal!
   volumeUSD: BigDecimal!
-
-  # tx count
-  txCount: BigInt!
 }
