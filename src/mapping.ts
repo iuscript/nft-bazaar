@@ -1,7 +1,7 @@
 import { Address, BigInt, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
 import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
-import { User, Nft, Offer, Order, NFTMarket, DayData } from '../generated/schema'
+import { User, Nft, Offer, Order, Market, DayData } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x0663b99715199d78850836Ba93dd479955E5105D'
@@ -64,12 +64,27 @@ export function handleBought(event: Bought): void {
 
   _removeOffer(event.params.tokenID.toHexString())
 
-  // let market = NFTMarket.load(NFTMarket_ADDRSS)
-  // if (market === null) {
-  //   market = new NFTMarket(NFTMarket_ADDRSS)
-  //   market.txCount = BigInt.fromI32(0)
-
-  // }
+  // update market total data
+  let market = Market.load(NFTMarket_ADDRSS)
+  if (market === null) {
+    market = new Market(NFTMarket_ADDRSS)
+    market.txCount = BigInt.fromI32(1)
+    if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
+      market.volumeETH = event.params.price
+      market.volumeUSD = BigInt.fromI32(0)
+    } else {
+      market.volumeETH = BigInt.fromI32(0)
+      market.volumeUSD = event.params.price
+    }
+  } else {
+    market.txCount = market.txCount.plus(BigInt.fromI32(1))
+    if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
+      market.volumeETH = market.volumeETH.plus(event.params.price)
+    } else {
+      market.volumeUSD = market.volumeUSD.plus(event.params.price)
+    }
+  }
+  market.save()
 }
 
 export function handleNoLongerForSale(event: NoLongerForSale): void {

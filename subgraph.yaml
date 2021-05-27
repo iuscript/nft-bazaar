@@ -39,6 +39,7 @@ dataSources:
       entities:
         - Offer
         - Order
+        - Market
       abis:
         - name: NFTMarket
           file: ./abis/NFTMarket_sol_NftMarket.abi

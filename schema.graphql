@@ -37,7 +37,7 @@ type Order @entity {
   transactionHash: Bytes!
 }
 
-type NFTMarket @entity {
+type Market @entity {
   id: ID!
   txCount: BigInt!
   volumeETH: BigInt!
@@ -52,7 +52,7 @@ type DayData @entity {
   date: Int!
 
   # NftBazaar
-  nftMarket: NFTMarket!
+  market: Market!
 
   # volume
   volumeETH: BigDecimal!
