@@ -1,4 +1,4 @@
-import { Address, BigInt, store } from '@graphprotocol/graph-ts'
+import { Address, BigInt, dataSource, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
 import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
 import { User, Nft, Offer, Order, Market, DayData } from '../generated/schema'
@@ -86,6 +86,28 @@ export function handleBought(event: Bought): void {
     market.volumeUSD = market.volumeUSD.plus(event.params.price)
   }
   market.save()
+
+  // update daydate
+  let day = event.block.timestamp.toI32() / 86400
+  let date = day * 86400
+  let id = BigInt.fromI32(day).toString()
+
+  let dayData = DayData.load(id)
+  if (dayData === null) {
+    dayData = new DayData(id)
+    dayData.date = date
+    dayData.txCount = BigInt.fromI32(1)
+    dayData.volumeETH = BigInt.fromI32(0)
+    dayData.volumeUSD = BigInt.fromI32(0)
+  } else {
+    dayData.txCount = dayData.txCount.plus(BigInt.fromI32(1))
+    if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
+      dayData.volumeETH = dayData.volumeETH.plus(event.params.price)
+    } else {
+      dayData.volumeUSD = dayData.volumeUSD.plus(event.params.price)
+    }
+  }
+  dayData.save()
 }
 
 export function handleNoLongerForSale(event: NoLongerForSale): void {

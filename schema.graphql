@@ -53,8 +53,7 @@ type DayData @entity {
   date: Int!
 
   txCount: BigInt!
-  offersCount: BigInt!
 
-  volumeETH: BigDecimal!
-  volumeUSD: BigDecimal!
+  volumeETH: BigInt!
+  volumeUSD: BigInt!
 }
