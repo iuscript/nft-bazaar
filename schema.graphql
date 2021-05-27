@@ -9,6 +9,7 @@ type Nft @entity {
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!
   holder: User!
+  Offer: Offer @derivedFrom(field: "tokenID")
   orderHistory: [Order!] @derivedFrom(field: "tokenID")
 }
 
@@ -16,6 +17,7 @@ type Offer @entity {
   id: ID!
   seller: Bytes!
   price: BigInt!
+  tokenID: Nft!
   paymentToken: Bytes!
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!
@@ -33,4 +35,29 @@ type Order @entity {
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!
   transactionHash: Bytes!
+}
+
+type NFTMarket @entity {
+  id: ID!
+  txCount: BigInt!
+  volumeETH: BigInt!
+  volumeUSD: BigInt!
+}
+
+type DayData @entity {
+  # timestamp / 86400
+  id: ID!
+
+  # date
+  date: Int!
+
+  # NftBazaar
+  nftMarket: NFTMarket!
+
+  # volume
+  volumeETH: BigDecimal!
+  volumeUSD: BigDecimal!
+
+  # tx count
+  txCount: BigInt!
 }

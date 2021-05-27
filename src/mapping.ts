@@ -1,10 +1,11 @@
-import { Address, store } from '@graphprotocol/graph-ts'
-import { Transfer, NFTBazaar } from '../generated/NFTBazaar/NFTBazaar'
-import { Bought, NoLongerForSale, Offered } from '../generated/NFTMarket/NFTMarket'
-import { User, Nft, Offer, Order } from '../generated/schema'
+import { Address, BigInt, store } from '@graphprotocol/graph-ts'
+import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
+import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
+import { User, Nft, Offer, Order, NFTMarket, DayData } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x0663b99715199d78850836Ba93dd479955E5105D'
+export const NFTMarket_ADDRSS = '0xc839EB991094D611e08bc1C236f37551529aE534'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
@@ -14,7 +15,7 @@ export function handleTransfer(event: Transfer): void {
   let from     = event.params.from
   let to       = event.params.to
   let tokenID  = event.params.tokenId
-  let contract = NFTBazaar.bind(Address.fromString(NFTBazaar_ADDRSS))
+  let contract = NFTBazaarContract.bind(Address.fromString(NFTBazaar_ADDRSS))
 
   let user = User.load(to.toHexString())
   if (user === null) {
@@ -41,6 +42,7 @@ export function handleOffered(event: Offered): void {
   let offer = new Offer(event.params.tokenID.toHexString())
   offer.seller = event.transaction.from
   offer.price = event.params.price
+  offer.tokenID = offer.id
   offer.paymentToken = event.params.paymentToken
   offer.createdAtTimestamp = event.block.timestamp
   offer.createdAtBlockNumber = event.block.number
@@ -61,6 +63,13 @@ export function handleBought(event: Bought): void {
   order.save()
 
   _removeOffer(event.params.tokenID.toHexString())
+
+  // let market = NFTMarket.load(NFTMarket_ADDRSS)
+  // if (market === null) {
+  //   market = new NFTMarket(NFTMarket_ADDRSS)
+  //   market.txCount = BigInt.fromI32(0)
+
+  // }
 }
 
 export function handleNoLongerForSale(event: NoLongerForSale): void {
