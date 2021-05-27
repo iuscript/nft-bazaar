@@ -40,6 +40,7 @@ dataSources:
         - Offer
         - Order
         - Market
+        - DayData
       abis:
         - name: NFTMarket
           file: ./abis/NFTMarket_sol_NftMarket.abi
