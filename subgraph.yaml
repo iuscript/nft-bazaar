@@ -8,9 +8,9 @@ dataSources:
     name: NFTBazaar
     network: kovan
     source:
-      address: '0x0663b99715199d78850836Ba93dd479955E5105D'
+      address: '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
       abi: NFTBazaar
-      startBlock: 24888133
+      startBlock: 25114921
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -29,9 +29,9 @@ dataSources:
     name: NFTMarket
     network: kovan
     source:
-      address: '0xc839EB991094D611e08bc1C236f37551529aE534'
+      address: '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
       abi: NFTMarket
-      startBlock: 24925690
+      startBlock: 25114994
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
