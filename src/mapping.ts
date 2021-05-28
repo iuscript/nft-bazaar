@@ -4,8 +4,8 @@ import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMark
 import { User, Nft, Offer, Order, Market, DayData } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
-export const NFTBazaar_ADDRSS = '0x0663b99715199d78850836Ba93dd479955E5105D'
-export const NFTMarket_ADDRSS = '0xc839EB991094D611e08bc1C236f37551529aE534'
+export const NFTBazaar_ADDRSS = '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
+export const NFTMarket_ADDRSS = '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
