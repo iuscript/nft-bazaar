@@ -1,4 +1,4 @@
-import { Address, BigInt, store } from '@graphprotocol/graph-ts'
+import { Address,BigInt, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
 import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
 import { Offered as Offered_v2, BidEntered } from '../generated/NFTMarket_v2/NFTMarket_v2'
@@ -32,7 +32,7 @@ export function handleTransfer(event: Transfer): void {
     nft.createdAtBlockNumber = event.block.number
     nft.transactionHash = event.transaction.hash
     nft.holder = user.id
-    nft.creater = to
+    nft.creater = Address.fromString(ADDRESS_ZERO)
     nft.save()
   } else {
     let nft = Nft.load(tokenID.toHexString())
@@ -54,6 +54,12 @@ export function handleOffered(event: Offered): void {
   offer.transactionHash = event.transaction.hash
   offer.contract = event.address
   offer.save()
+
+  let nft = Nft.load(event.params.tokenID.toHexString())
+  if (nft.creater == Address.fromString(ADDRESS_ZERO)) {
+    nft.creater = event.transaction.from
+    nft.save()
+  }
 
   let market = Market.load(NFTMarket_ADDRSS)
   if (market === null) {
