@@ -10,7 +10,7 @@
     "create-local": "graph create iuscript/nft-bazaar --node http://127.0.0.1:8020",
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy": "graph deploy iuscript/nft-bazaar --skip-migrations --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token 48613d6f231b47088e6fe1d6df18791b",
+    "deploy": "graph deploy iuscript/nft-bazaar-kovan --skip-migrations --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token 48613d6f231b47088e6fe1d6df18791b",
     "deploy-local": "graph deploy iuscript/nft-bazaar --ipfs http://localhost:5001 --node http://127.0.0.1:8020"
   },
   "devDependencies": {
