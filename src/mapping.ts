@@ -88,6 +88,12 @@ export function handleOffered_v2(event: Offered_v2): void {
   offer.contract = event.address
   offer.save()
 
+  let nft = Nft.load(event.params.tokenID.toHexString())
+  if (nft.creater == Address.fromString(ADDRESS_ZERO)) {
+    nft.creater = event.transaction.from
+    nft.save()
+  }
+
   let market = Market.load(NFTMarket_ADDRSS)
   if (market === null) {
     market = new Market(NFTMarket_ADDRSS)
