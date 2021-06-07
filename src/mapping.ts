@@ -7,6 +7,7 @@ import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/sche
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
 export const NFTMarket_ADDRSS = '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
+export const NFTMarket_ADDRSS2 = '0xA3c35B7f3f42B606A2a44bc55B0Be6184Da1E25c'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
@@ -33,10 +34,16 @@ export function handleTransfer(event: Transfer): void {
     nft.transactionHash = event.transaction.hash
     nft.holder = user.id
     nft.creater = Address.fromString(ADDRESS_ZERO)
+    if (event.transaction.from.toHexString() != NFTMarket_ADDRSS && event.transaction.from.toHexString() != NFTMarket_ADDRSS2 ) {
+      nft.owner = to
+    }
     nft.save()
   } else {
     let nft = Nft.load(tokenID.toHexString())
     nft.holder = to.toHexString()
+    if (to.toHexString() != NFTMarket_ADDRSS && to.toHexString() != NFTMarket_ADDRSS2 ) {
+      nft.owner = to
+    }
     nft.save()
   }
 }
@@ -56,6 +63,7 @@ export function handleOffered(event: Offered): void {
   offer.save()
 
   let nft = Nft.load(event.params.tokenID.toHexString())
+  nft.owner = event.transaction.from
   if (nft.creater == Address.fromString(ADDRESS_ZERO)) {
     nft.creater = event.transaction.from
     nft.save()
@@ -89,6 +97,7 @@ export function handleOffered_v2(event: Offered_v2): void {
   offer.save()
 
   let nft = Nft.load(event.params.tokenID.toHexString())
+  nft.owner = event.transaction.from
   if (nft.creater == Address.fromString(ADDRESS_ZERO)) {
     nft.creater = event.transaction.from
     nft.save()

@@ -11,6 +11,7 @@ type Nft @entity {
   transactionHash: Bytes!
   creater: Bytes!
   holder: User!
+  owner: Bytes
   offer: Offer @derivedFrom(field: "tokenID")
   orderHistory: [Order!] @derivedFrom(field: "tokenID")
   bidHistory: [Bid!] @derivedFrom(field: "tokenID")
