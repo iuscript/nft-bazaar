@@ -56,9 +56,9 @@ dataSources:
     name: NFTMarket_v2
     network: kovan
     source:
-      address: '0x7E860d745B362E70E07ff05E2363173884341B79'
+      address: '0xA3c35B7f3f42B606A2a44bc55B0Be6184Da1E25c'
       abi: NFTMarket_v2
-      startBlock: 25233517
+      startBlock: 25311244
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -71,7 +71,7 @@ dataSources:
         - DayData
       abis:
         - name: NFTMarket_v2
-          file: ./abis/NFTMarket_sol_NftMarket_v2.abi
+          file: ./abis/NFTMarket_v2_sol_NftMarket.abi
       eventHandlers:
         - event: Offered(indexed uint256,indexed address,uint256,address,bool,uint256)
           handler: handleOffered_v2
