@@ -7,7 +7,7 @@ import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/sche
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
 export const NFTMarket_ADDRSS = '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
-export const NFTMarket_ADDRSS2 = '0xA3c35B7f3f42B606A2a44bc55B0Be6184Da1E25c'
+export const NFTMarket_ADDRSS2 = '0x8626b6aDF816d41745Bf59C6aB911d2f27a0d969'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
@@ -53,7 +53,7 @@ export function handleOffered(event: Offered): void {
   offer.isBid = false
   offer.seller = event.transaction.from
   offer.price = event.params.price
-  offer.tokenID = offer.id
+  offer.token = offer.id
   offer.paymentToken = event.params.paymentToken
   offer.endTime = BigInt.fromI32(0)
   offer.createdAtTimestamp = event.block.timestamp
@@ -87,7 +87,7 @@ export function handleOffered_v2(event: Offered_v2): void {
   offer.isBid = event.params.isBid
   offer.seller = event.params.seller
   offer.price = event.params.price
-  offer.tokenID = offer.id
+  offer.token = offer.id
   offer.paymentToken = event.params.paymentToken
   offer.endTime = event.params.endTime
   offer.createdAtTimestamp = event.block.timestamp
@@ -120,7 +120,7 @@ export function handleBought(event: Bought): void {
   let order = new Order(event.params.tokenID.toHexString().concat('-').concat(event.block.timestamp.toString()))
   order.seller = event.params.seller
   order.buyers = event.params.buyers
-  order.tokenID = event.params.tokenID.toHexString()
+  order.token = event.params.tokenID.toHexString()
   order.price  = event.params.price
   order.paymentToken = event.params.paymentToken
   order.createdAtTimestamp = event.block.timestamp
@@ -174,7 +174,8 @@ export function handleNoLongerForSale(event: NoLongerForSale): void {
 
 export function handleBidEntered(event: BidEntered): void {
   let bid = new Bid(event.params.tokenID.toHexString().concat('-').concat(event.block.timestamp.toString()))
-  bid.tokenID = event.params.tokenID.toHexString()
+  bid.token = event.params.tokenID.toHexString()
+  bid.offer = event.params.tokenID.toHexString()
   bid.bidder = event.params.fromAddress
   bid.value = event.params.value
   bid.createdAtTimestamp = event.block.timestamp

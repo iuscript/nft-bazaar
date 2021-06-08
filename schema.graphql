@@ -12,9 +12,9 @@ type Nft @entity {
   creater: Bytes!
   holder: User!
   owner: Bytes
-  offer: Offer @derivedFrom(field: "tokenID")
-  orderHistory: [Order!] @derivedFrom(field: "tokenID")
-  bidHistory: [Bid!] @derivedFrom(field: "tokenID")
+  offer: Offer @derivedFrom(field: "token")
+  orderHistory: [Order!] @derivedFrom(field: "token")
+  bidHistory: [Bid!] @derivedFrom(field: "token")
 }
 
 type Offer @entity {
@@ -22,7 +22,8 @@ type Offer @entity {
   isBid: Boolean!
   seller: Bytes!
   price: BigInt!
-  tokenID: Nft!
+  token: Nft!
+  bids: [Bid!] @derivedFrom(field: "offer")
   paymentToken: Bytes!
   endTime: BigInt!
   createdAtTimestamp: BigInt!
@@ -36,7 +37,7 @@ type Order @entity {
   id: ID!
   seller: Bytes!
   buyers: Bytes!
-  tokenID: Nft!
+  token: Nft!
   price: BigInt!
   paymentToken: Bytes!
   createdAtTimestamp: BigInt!
@@ -47,7 +48,8 @@ type Order @entity {
 type Bid @entity {
   # tokenID + "-" + Timestamp
   id: ID!
-  tokenID: Nft!
+  token: Nft!
+  offer: Offer!
   bidder: Bytes!
   value: BigInt!
   createdAtTimestamp: BigInt!
