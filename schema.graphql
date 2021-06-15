@@ -25,6 +25,7 @@ type Offer @entity {
   token: Nft!
   bids: [Bid!] @derivedFrom(field: "offer")
   paymentToken: Bytes!
+  startTime: BigInt!
   endTime: BigInt!
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!

@@ -89,6 +89,7 @@ export function handleOffered_v2(event: Offered_v2): void {
   offer.price = event.params.price
   offer.token = offer.id
   offer.paymentToken = event.params.paymentToken
+  offer.startTime = event.params.startTime
   offer.endTime = event.params.endTime
   offer.createdAtTimestamp = event.block.timestamp
   offer.createdAtBlockNumber = event.block.number
