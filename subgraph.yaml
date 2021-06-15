@@ -56,9 +56,9 @@ dataSources:
     name: NFTMarket_v2
     network: kovan
     source:
-      address: '0x8626b6aDF816d41745Bf59C6aB911d2f27a0d969'
+      address: '0x6509E0f871dAF8ec90210c925714A9a07d7bA418'
       abi: NFTMarket_v2
-      startBlock: 25317682
+      startBlock: 25402105
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
