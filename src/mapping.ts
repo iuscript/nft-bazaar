@@ -7,7 +7,7 @@ import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/sche
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
 export const NFTMarket_ADDRSS = '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
-export const NFTMarket_ADDRSS2 = '0x3268f61fe09eB649a08B7Eaba67818d7e320d686'
+export const NFTMarket_ADDRSS2 = '0x2917331Da36de678B652a3b35c8190C7CC3c986A'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
@@ -55,6 +55,7 @@ export function handleOffered(event: Offered): void {
   offer.price = event.params.price
   offer.token = offer.id
   offer.paymentToken = event.params.paymentToken
+  offer.startTime = event.block.timestamp
   offer.endTime = BigInt.fromI32(0)
   offer.createdAtTimestamp = event.block.timestamp
   offer.createdAtBlockNumber = event.block.number
