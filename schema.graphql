@@ -50,7 +50,7 @@ type Bid @entity {
   # tokenID + "-" + Timestamp
   id: ID!
   token: Nft!
-  offer: Offer!
+  offer: Offer
   bidder: Bytes!
   value: BigInt!
   createdAtTimestamp: BigInt!

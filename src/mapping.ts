@@ -1,7 +1,7 @@
 import { Address,BigInt, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
 import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
-import { Offered as Offered_v2, BidEntered } from '../generated/NFTMarket_v2/NFTMarket_v2'
+import { Offered as Offered_v2, BidEntered, AuctionPass } from '../generated/NFTMarket_v2/NFTMarket_v2'
 import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
@@ -184,4 +184,12 @@ export function handleBidEntered(event: BidEntered): void {
   bid.createdAtBlockNumber = event.block.number
   bid.transactionHash = event.transaction.hash
   bid.save()
+}
+
+export function handleAuctionPass(event: AuctionPass): void {
+  _removeOffer(event.params.tokenID.toHexString())
+
+  let market = Market.load(NFTMarket_ADDRSS)
+  market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
+  market.save()
 }

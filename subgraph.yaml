@@ -81,4 +81,6 @@ dataSources:
           handler: handleNoLongerForSale
         - event: BidEntered(indexed uint256,indexed address,uint256)
           handler: handleBidEntered
+        - event: AuctionPass(indexed uint256)
+          handler: handleAuctionPass
       file: ./src/mapping.ts
