@@ -184,6 +184,14 @@ export function handleBidEntered(event: BidEntered): void {
   bid.createdAtBlockNumber = event.block.number
   bid.transactionHash = event.transaction.hash
   bid.save()
+
+  let offer = Offer.load(event.params.tokenID.toHexString())
+  if (offer.bidders.length > 0) {
+    offer.bidders = event.params.fromAddress.toHexString().concat(',').concat(offer.bidders)
+  } else {
+    offer.bidders = event.params.fromAddress.toHexString()
+  }
+  offer.save()
 }
 
 export function handleAuctionPass(event: AuctionPass): void {
