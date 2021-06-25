@@ -54,6 +54,7 @@ type Bid @entity {
   offer: Offer
   bidder: Bytes!
   value: BigInt!
+  paymentToken: Bytes!
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!
   transactionHash: Bytes!

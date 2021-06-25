@@ -182,16 +182,6 @@ export function handleChangePrice(event: ChangePrice): void {
 }
 
 export function handleBidEntered(event: BidEntered): void {
-  let bid = new Bid(event.params.tokenID.toHexString().concat('-').concat(event.block.timestamp.toString()))
-  bid.token = event.params.tokenID.toHexString()
-  bid.offer = event.params.tokenID.toHexString()
-  bid.bidder = event.params.fromAddress
-  bid.value = event.params.value
-  bid.createdAtTimestamp = event.block.timestamp
-  bid.createdAtBlockNumber = event.block.number
-  bid.transactionHash = event.transaction.hash
-  bid.save()
-
   let offer = Offer.load(event.params.tokenID.toHexString())
   if (offer.bidders.length > 0) {
     offer.bidders = event.params.fromAddress.toHexString().concat(',').concat(offer.bidders)
@@ -199,6 +189,18 @@ export function handleBidEntered(event: BidEntered): void {
     offer.bidders = event.params.fromAddress.toHexString()
   }
   offer.save()
+
+  let bid = new Bid(event.params.tokenID.toHexString().concat('-').concat(event.block.timestamp.toString()))
+  bid.token = event.params.tokenID.toHexString()
+  bid.offer = event.params.tokenID.toHexString()
+  bid.bidder = event.params.fromAddress
+  bid.value = event.params.value
+  bid.paymentToken = offer.paymentToken
+  bid.createdAtTimestamp = event.block.timestamp
+  bid.createdAtBlockNumber = event.block.number
+  bid.transactionHash = event.transaction.hash
+  bid.save()
+
 }
 
 export function handleAuctionPass(event: AuctionPass): void {
