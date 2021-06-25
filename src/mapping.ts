@@ -1,13 +1,13 @@
 import { Address,BigInt, store } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
 import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
-import { Offered as Offered_v2, BidEntered, AuctionPass } from '../generated/NFTMarket_v2/NFTMarket_v2'
+import { Offered as Offered_v2, BidEntered, AuctionPass, ChangePrice } from '../generated/NFTMarket_v2/NFTMarket_v2'
 import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRSS = '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
 export const NFTMarket_ADDRSS = '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
-export const NFTMarket_ADDRSS2 = '0x984967f140C10CCE9D325FE3698Ee37D5E7922fd'
+export const NFTMarket_ADDRSS2 = '0xb714Ff6DAB31fBdFa3351f44eD073b4d7B5eedC6'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
@@ -172,6 +172,13 @@ export function handleNoLongerForSale(event: NoLongerForSale): void {
   let market = Market.load(NFTMarket_ADDRSS)
   market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
   market.save()
+}
+
+export function handleChangePrice(event: ChangePrice): void {
+  let offer = Offer.load(event.params.tokenID.toHexString())
+  offer.price = event.params.price
+  offer.paymentToken = event.params.paymentToken
+  offer.save()
 }
 
 export function handleBidEntered(event: BidEntered): void {

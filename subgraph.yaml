@@ -56,9 +56,9 @@ dataSources:
     name: NFTMarket_v2
     network: kovan
     source:
-      address: '0x984967f140C10CCE9D325FE3698Ee37D5E7922fd'
+      address: '0xb714Ff6DAB31fBdFa3351f44eD073b4d7B5eedC6'
       abi: NFTMarket_v2
-      startBlock: 25617449
+      startBlock: 25683615
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -83,4 +83,6 @@ dataSources:
           handler: handleBidEntered
         - event: AuctionPass(indexed uint256)
           handler: handleAuctionPass
+        - event: ChangePrice(indexed uint256,uint256,address)
+          handler: handleChangePrice
       file: ./src/mapping.ts
