@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: NFTBazaar
-    network: kovan
+    network: mumbai
     source:
-      address: '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
+      address: '0x545e5F9983EDc7374102cBA70e78c34CD2Cb85E6'
       abi: NFTBazaar
-      startBlock: 25114921
+      startBlock: 19038119
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -27,11 +27,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: NFTMarket
-    network: kovan
+    network: mumbai
     source:
-      address: '0x88Feb551Ef109685dFEb5962E81a6dcC74E7b6BC'
+      address: '0xeAD9F3dF4bBCd2fc26a7E69695Ca0be6b95cB763'
       abi: NFTMarket
-      startBlock: 25114994
+      startBlock: 19205485
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -54,11 +54,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: NFTMarket_v2
-    network: kovan
+    network: mumbai
     source:
-      address: '0x52e11c98793562c11dFFF74f6E3316a8Abeff27f'
+      address: '0x13aEB0D1D038A4BB08ed01957a2743651D32B015'
       abi: NFTMarket_v2
-      startBlock: 27216180
+      startBlock: 19205568
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

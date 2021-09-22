@@ -5,9 +5,9 @@ import { Offered as Offered_v2, BidEntered, AuctionPass, ChangePrice } from '../
 import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
-export const NFTBazaar_ADDRSS = '0x93e97BE3755EC8D54B464F310171c5DE51b1b461'
-export const NFTMarket_ADDRSS = '0x88feb551ef109685dfeb5962e81a6dcc74e7b6bc'
-export const NFTMarket_ADDRSS2 = '0x52e11c98793562c11dFFF74f6E3316a8Abeff27f'
+export const NFTBazaar_ADDRSS = '0x545e5F9983EDc7374102cBA70e78c34CD2Cb85E6'
+export const NFTMarket_ADDRSS = '0xeAD9F3dF4bBCd2fc26a7E69695Ca0be6b95cB763'
+export const NFTMarket_ADDRSS2 = '0x13aEB0D1D038A4BB08ed01957a2743651D32B015'
 
 function _removeOffer(tokenID: string): void {
   store.remove("Offer", tokenID)
