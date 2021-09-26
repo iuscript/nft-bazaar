@@ -1,23 +1,24 @@
 import { Address,BigInt, store } from '@graphprotocol/graph-ts'
-import { Transfer, NFTBazaar as NFTBazaarContract } from '../generated/NFTBazaar/NFTBazaar'
-import { Offered, Bought, NoLongerForSale } from '../generated/NFTMarket/NFTMarket'
-import { Offered as Offered_v2, BidEntered, AuctionPass, ChangePrice } from '../generated/NFTMarket_v2/NFTMarket_v2'
+import { Transfer, NFTBazaar_v2 as NFTBazaarContract } from '../generated/NFTBazaar_v2/NFTBazaar_v2'
+import { Transfer as Transfer_MetaRobot, MetaRobot as MetaRobotContract } from '../generated/MetaRobot/MetaRobot'
+import { Offered,Bought, NoLongerForSale, BidEntered, AuctionPass, ChangePrice } from '../generated/NFTMarket_v3/NFTMarket_v3'
 import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
-export const NFTBazaar_ADDRSS = '0x545e5F9983EDc7374102cBA70e78c34CD2Cb85E6'
-export const NFTMarket_ADDRSS = '0xeAD9F3dF4bBCd2fc26a7E69695Ca0be6b95cB763'
-export const NFTMarket_ADDRSS2 = '0x13aEB0D1D038A4BB08ed01957a2743651D32B015'
+export const NFTBazaar_ADDRESS = '0x87c68F1e39cEEA6F32F7a7887E5Bbb27004EEC4f'
+export const MetaRobot_ADDRESS = '0xdd2ac4A8bcae4FAdEd6fA26141416A5C3B60fa2f'
+export const NFTMarket_ADDRESS = '0xa964762BAA19dDA30629E3c1935368a1C3251F21'
 
-function _removeOffer(tokenID: string): void {
-  store.remove("Offer", tokenID)
+function _removeOffer(tokenKey: string): void {
+  store.remove("Offer", tokenKey)
 }
 
 export function handleTransfer(event: Transfer): void {
   let from     = event.params.from
   let to       = event.params.to
   let tokenID  = event.params.tokenId
-  let contract = NFTBazaarContract.bind(Address.fromString(NFTBazaar_ADDRSS))
+  let contract = NFTBazaarContract.bind(Address.fromString(NFTBazaar_ADDRESS))
+  let nftID = NFTBazaar_ADDRESS.concat('-').concat(tokenID.toHexString())
 
   let user = User.load(to.toHexString())
   if (user === null) {
@@ -26,65 +27,75 @@ export function handleTransfer(event: Transfer): void {
   }
 
   if (from.toHexString() == ADDRESS_ZERO) {
-    let nft = new Nft(tokenID.toHexString())
+    let nft = new Nft(nftID)
     let tokenUri = contract.tokenURI(tokenID)
+    nft.tokenID = tokenID.toHexString()
+    nft.tokenAddress = Address.fromString(NFTBazaar_ADDRESS)
     nft.tokenURI = tokenUri
     nft.createdAtTimestamp = event.block.timestamp
     nft.createdAtBlockNumber = event.block.number
     nft.transactionHash = event.transaction.hash
-    nft.holder = user.id
     nft.creater = Address.fromString(ADDRESS_ZERO)
-    if (event.transaction.from.toHexString() != NFTMarket_ADDRSS && event.transaction.from.toHexString() != NFTMarket_ADDRSS2 ) {
+    nft.holder = user.id
+    if (event.transaction.from.toHexString() != NFTMarket_ADDRESS) {
       nft.owner = to
     }
     nft.save()
   } else {
-    let nft = Nft.load(tokenID.toHexString())
+    let nft = Nft.load(nftID)
     nft.holder = to.toHexString()
-    if (to.toHexString() != NFTMarket_ADDRSS && to.toHexString() != NFTMarket_ADDRSS2 ) {
+    if (to.toHexString() != NFTMarket_ADDRESS) {
       nft.owner = to
     }
     nft.save()
   }
 }
 
-export function handleOffered(event: Offered): void {
-  let offer = new Offer(event.params.tokenID.toHexString())
-  offer.isBid = false
-  offer.seller = event.transaction.from
-  offer.price = event.params.price
-  offer.token = offer.id
-  offer.paymentToken = event.params.paymentToken
-  offer.startTime = event.block.timestamp
-  offer.endTime = BigInt.fromI32(0)
-  offer.createdAtTimestamp = event.block.timestamp
-  offer.createdAtBlockNumber = event.block.number
-  offer.transactionHash = event.transaction.hash
-  offer.contract = event.address
-  offer.save()
+export function handleTransfer_MetaRobot(event: Transfer_MetaRobot): void {
+  let from     = event.params.from
+  let to       = event.params.to
+  let tokenID  = event.params.tokenId
+  let contract = MetaRobotContract.bind(Address.fromString(MetaRobot_ADDRESS))
+  let nftID = MetaRobot_ADDRESS.concat('-').concat(tokenID.toHexString())
 
-  let nft = Nft.load(event.params.tokenID.toHexString())
-  nft.owner = event.transaction.from
-  if (nft.creater == Address.fromString(ADDRESS_ZERO)) {
-    nft.creater = event.transaction.from
+  let user = User.load(to.toHexString())
+  if (user === null) {
+    user = new User(to.toHexString())
+    user.save()
+  }
+
+  if (from.toHexString() == ADDRESS_ZERO) {
+    let nft = new Nft(nftID)
+    let tokenUri = contract.tokenURI(tokenID)
+    nft.tokenID = tokenID.toHexString()
+    nft.tokenAddress = Address.fromString(MetaRobot_ADDRESS)
+    nft.tokenURI = tokenUri
+    nft.createdAtTimestamp = event.block.timestamp
+    nft.createdAtBlockNumber = event.block.number
+    nft.transactionHash = event.transaction.hash
+    nft.creater = Address.fromString(ADDRESS_ZERO)
+    nft.holder = user.id
+    if (event.transaction.from.toHexString() != NFTMarket_ADDRESS) {
+      nft.owner = to
+    }
+    nft.save()
+  } else {
+    let nft = Nft.load(nftID)
+    nft.holder = to.toHexString()
+    if (to.toHexString() != NFTMarket_ADDRESS) {
+      nft.owner = to
+    }
     nft.save()
   }
-
-  let market = Market.load(NFTMarket_ADDRSS)
-  if (market === null) {
-    market = new Market(NFTMarket_ADDRSS)
-    market.txCount = BigInt.fromI32(0)
-    market.offersCount = BigInt.fromI32(1)
-    market.volumeETH = BigInt.fromI32(0)
-    market.volumeUSD = BigInt.fromI32(0)
-  } else {
-    market.offersCount = market.offersCount.plus(BigInt.fromI32(1))
-  }
-  market.save()
 }
 
-export function handleOffered_v2(event: Offered_v2): void {
-  let offer = new Offer(event.params.tokenID.toHexString())
+export function handleOffered_v3(event: Offered): void {
+  let offerID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString())
+  let nftID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString())
+
+  let offer = new Offer(offerID)
+  offer.tokenID = event.params.tokenID.toHexString()
+  offer.tokenAddress = event.params.tokenAddress
   offer.isBid = event.params.isBid
   offer.seller = event.params.seller
   offer.price = event.params.price
@@ -98,16 +109,16 @@ export function handleOffered_v2(event: Offered_v2): void {
   offer.contract = event.address
   offer.save()
 
-  let nft = Nft.load(event.params.tokenID.toHexString())
+  let nft = Nft.load(nftID)
   nft.owner = event.transaction.from
   if (nft.creater == Address.fromString(ADDRESS_ZERO)) {
     nft.creater = event.transaction.from
     nft.save()
   }
 
-  let market = Market.load(NFTMarket_ADDRSS)
+  let market = Market.load(NFTMarket_ADDRESS)
   if (market === null) {
-    market = new Market(NFTMarket_ADDRSS)
+    market = new Market(NFTMarket_ADDRESS)
     market.txCount = BigInt.fromI32(0)
     market.offersCount = BigInt.fromI32(1)
     market.volumeETH = BigInt.fromI32(0)
@@ -119,7 +130,7 @@ export function handleOffered_v2(event: Offered_v2): void {
 }
 
 export function handleBought(event: Bought): void {
-  let order = new Order(event.params.tokenID.toHexString().concat('-').concat(event.block.timestamp.toString()))
+  let order = new Order(event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString()).concat('-').concat(event.block.timestamp.toString()))
   order.seller = event.params.seller
   order.buyers = event.params.buyers
   order.token = event.params.tokenID.toHexString()
@@ -130,10 +141,10 @@ export function handleBought(event: Bought): void {
   order.transactionHash = event.transaction.hash
   order.save()
 
-  _removeOffer(event.params.tokenID.toHexString())
+  _removeOffer(event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString()))
 
   // update market total data
-  let market = Market.load(NFTMarket_ADDRSS)
+  let market = Market.load(NFTMarket_ADDRESS)
   market.txCount = market.txCount.plus(BigInt.fromI32(1))
   market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
   if (event.params.paymentToken.toHexString() == ADDRESS_ZERO) {
@@ -167,22 +178,28 @@ export function handleBought(event: Bought): void {
 }
 
 export function handleNoLongerForSale(event: NoLongerForSale): void {
-  _removeOffer(event.params.tokenID.toHexString())
+  let offerID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString())
+  _removeOffer(offerID)
 
-  let market = Market.load(NFTMarket_ADDRSS)
+  let market = Market.load(NFTMarket_ADDRESS)
   market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
   market.save()
 }
 
 export function handleChangePrice(event: ChangePrice): void {
-  let offer = Offer.load(event.params.tokenID.toHexString())
+  let offerID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString())
+  let offer = Offer.load(offerID)
   offer.price = event.params.price
   offer.paymentToken = event.params.paymentToken
   offer.save()
 }
 
 export function handleBidEntered(event: BidEntered): void {
-  let offer = Offer.load(event.params.tokenID.toHexString())
+  let offerID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString())
+  let bidID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString()).concat('-').concat(event.block.timestamp.toString())
+  let nftID = offerID 
+
+  let offer = Offer.load(offerID)
   if (offer.bidders.length > 0) {
     offer.bidders = event.params.fromAddress.toHexString().concat(',').concat(offer.bidders)
   } else {
@@ -190,9 +207,10 @@ export function handleBidEntered(event: BidEntered): void {
   }
   offer.save()
 
-  let bid = new Bid(event.params.tokenID.toHexString().concat('-').concat(event.block.timestamp.toString()))
-  bid.token = event.params.tokenID.toHexString()
-  bid.offer = event.params.tokenID.toHexString()
+  
+  let bid = new Bid(bidID)
+  bid.token = nftID
+  bid.offer = offerID
   bid.bidder = event.params.fromAddress
   bid.value = event.params.value
   bid.paymentToken = offer.paymentToken
@@ -204,9 +222,10 @@ export function handleBidEntered(event: BidEntered): void {
 }
 
 export function handleAuctionPass(event: AuctionPass): void {
-  _removeOffer(event.params.tokenID.toHexString())
+  let offerID = event.params.tokenAddress.toHexString().concat('-').concat(event.params.tokenID.toHexString())
+  _removeOffer(offerID)
 
-  let market = Market.load(NFTMarket_ADDRSS)
+  let market = Market.load(NFTMarket_ADDRESS)
   market.offersCount = market.offersCount.minus(BigInt.fromI32(1))
   market.save()
 }

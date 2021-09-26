@@ -5,12 +5,12 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: NFTBazaar
+    name: MetaRobot
     network: mumbai
     source:
-      address: '0x545e5F9983EDc7374102cBA70e78c34CD2Cb85E6'
-      abi: NFTBazaar
-      startBlock: 19038119
+      address: '0xdd2ac4A8bcae4FAdEd6fA26141416A5C3B60fa2f'
+      abi: MetaRobot
+      startBlock: 19275530
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -19,46 +19,40 @@ dataSources:
         - User
         - Nft
       abis:
-        - name: NFTBazaar
-          file: ./abis/NFTBazaar_sol_NFTBazaar.abi
+        - name: MetaRobot
+          file: ./abis/MetaRobot_sol_MetaRobot.abi
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
+          handler: handleTransfer_MetaRobot
       file: ./src/mapping.ts
   - kind: ethereum/contract
-    name: NFTMarket
+    name: NFTBazaar_v2
     network: mumbai
     source:
-      address: '0xeAD9F3dF4bBCd2fc26a7E69695Ca0be6b95cB763'
-      abi: NFTMarket
-      startBlock: 19205485
+      address: '0x87c68F1e39cEEA6F32F7a7887E5Bbb27004EEC4f'
+      abi: NFTBazaar_v2
+      startBlock: 19286592
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Offer
-        - Order
-        - Market
-        - DayData
+        - User
+        - Nft
       abis:
-        - name: NFTMarket
-          file: ./abis/NFTMarket_sol_NftMarket.abi
+        - name: NFTBazaar_v2
+          file: ./abis/NFTBazaar_v2_sol_NFTBazaar.abi
       eventHandlers:
-        - event: Offered(indexed uint256,uint256,address)
-          handler: handleOffered
-        - event: Bought(indexed address,indexed address,indexed uint256,uint256,address)
-          handler: handleBought
-        - event: NoLongerForSale(indexed uint256)
-          handler: handleNoLongerForSale
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
       file: ./src/mapping.ts
   - kind: ethereum/contract
-    name: NFTMarket_v2
+    name: NFTMarket_v3
     network: mumbai
     source:
-      address: '0x13aEB0D1D038A4BB08ed01957a2743651D32B015'
-      abi: NFTMarket_v2
-      startBlock: 19205568
+      address: '0xa964762BAA19dDA30629E3c1935368a1C3251F21'
+      abi: NFTMarket_v3
+      startBlock: 19286912
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -70,19 +64,19 @@ dataSources:
         - Market
         - DayData
       abis:
-        - name: NFTMarket_v2
-          file: ./abis/NFTMarket_v2_sol_NftMarket.abi
+        - name: NFTMarket_v3
+          file: ./abis/NFTMarket_v3_sol_NftMarket.abi
       eventHandlers:
-        - event: Offered(indexed uint256,indexed address,uint256,address,bool,uint256,uint256)
-          handler: handleOffered_v2
-        - event: Bought(indexed address,indexed address,indexed uint256,uint256,address)
+        - event: Offered(indexed uint256,indexed address,indexed address,uint256,address,bool,uint256,uint256)
+          handler: handleOffered_v3
+        - event: Bought(indexed address,indexed address,indexed uint256,address,uint256,address)
           handler: handleBought
-        - event: NoLongerForSale(indexed uint256)
+        - event: NoLongerForSale(indexed uint256,indexed address)
           handler: handleNoLongerForSale
-        - event: BidEntered(indexed uint256,indexed address,uint256)
+        - event: BidEntered(indexed uint256,indexed address,indexed address,uint256)
           handler: handleBidEntered
-        - event: AuctionPass(indexed uint256)
+        - event: AuctionPass(indexed uint256,indexed address)
           handler: handleAuctionPass
-        - event: ChangePrice(indexed uint256,uint256,address)
+        - event: ChangePrice(indexed uint256,indexed address,uint256,address)
           handler: handleChangePrice
       file: ./src/mapping.ts

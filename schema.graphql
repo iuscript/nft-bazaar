@@ -5,6 +5,8 @@ type User @entity {
 
 type Nft @entity {
   id: ID!
+  tokenID: String!
+  tokenAddress: Bytes!
   tokenURI: String
   createdAtTimestamp: BigInt!
   createdAtBlockNumber: BigInt!
@@ -19,6 +21,8 @@ type Nft @entity {
 
 type Offer @entity {
   id: ID!
+  tokenID: String!
+  tokenAddress: Bytes!
   isBid: Boolean!
   seller: Bytes!
   price: BigInt!
