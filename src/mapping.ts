@@ -1,13 +1,13 @@
-import { Address,BigInt, store } from '@graphprotocol/graph-ts'
+import { Address,BigInt, store, log } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar_v2 as NFTBazaarContract } from '../generated/NFTBazaar_v2/NFTBazaar_v2'
 import { Transfer as Transfer_MetaRobot, MetaRobot as MetaRobotContract } from '../generated/MetaRobot/MetaRobot'
-import { Offered,Bought, NoLongerForSale, BidEntered, AuctionPass, ChangePrice } from '../generated/NFTMarket_v3/NFTMarket_v3'
+import { Offered, Bought, NoLongerForSale, BidEntered, AuctionPass, ChangePrice } from '../generated/NFTMarket_v3/NFTMarket_v3'
 import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
-export const NFTBazaar_ADDRESS = '0x87c68F1e39cEEA6F32F7a7887E5Bbb27004EEC4f'
-export const MetaRobot_ADDRESS = '0xdd2ac4A8bcae4FAdEd6fA26141416A5C3B60fa2f'
-export const NFTMarket_ADDRESS = '0xa964762BAA19dDA30629E3c1935368a1C3251F21'
+export const NFTBazaar_ADDRESS = '0x152883c98412293f43af53ac92be26b2b04f197a'
+export const MetaRobot_ADDRESS = '0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f'
+export const NFTMarket_ADDRESS = '0x3243A6Cda943fC70ec6d5A59956e013280370626'
 
 function _removeOffer(tokenKey: string): void {
   store.remove("Offer", tokenKey)
@@ -19,6 +19,7 @@ export function handleTransfer(event: Transfer): void {
   let tokenID  = event.params.tokenId
   let contract = NFTBazaarContract.bind(Address.fromString(NFTBazaar_ADDRESS))
   let nftID = NFTBazaar_ADDRESS.concat('-').concat(tokenID.toHexString())
+  log.warning("nftId", [nftID])
 
   let user = User.load(to.toHexString())
   if (user === null) {

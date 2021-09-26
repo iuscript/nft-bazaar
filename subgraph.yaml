@@ -29,9 +29,9 @@ dataSources:
     name: NFTBazaar_v2
     network: mumbai
     source:
-      address: '0x87c68F1e39cEEA6F32F7a7887E5Bbb27004EEC4f'
+      address: '0x152883C98412293F43aF53aC92bE26B2b04f197A'
       abi: NFTBazaar_v2
-      startBlock: 19286592
+      startBlock: 19414213
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -50,9 +50,9 @@ dataSources:
     name: NFTMarket_v3
     network: mumbai
     source:
-      address: '0xa964762BAA19dDA30629E3c1935368a1C3251F21'
+      address: '0x3243A6Cda943fC70ec6d5A59956e013280370626'
       abi: NFTMarket_v3
-      startBlock: 19286912
+      startBlock: 19414274
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
