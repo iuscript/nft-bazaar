@@ -1,27 +1,22 @@
-# Subgraph nft-bazaar
+# Subgraph nft-bazaar-mumbai
+
+### 在线查询地址：
+
+https://thegraph.com/legacy-explorer/subgraph/iuscript/nft-bazaar-mumbai
 
 ### Subgraph endpoints:
 
 Queries (HTTP):     https://api.thegraph.com/subgraphs/name/iuscript/nft-bazaar
 
-Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/iuscript/nft-bazaar
-
 ### 请求示例
 
 ```json
 {
-  users(first: 5) {
+  nfts {
     id
-    tokens {
-      id
-      tokenURI
-    }
-  }
-  nfts(first: 5) {
-    id
+    tokenID
+    tokenAddress
     tokenURI
-    createdAtTimestamp
-    createdAtBlockNumber
   }
 }
 ```
@@ -33,113 +28,45 @@ Subscriptions (WS): wss://api.thegraph.com/subgraphs/name/iuscript/nft-bazaar
   "data": {
     "nfts": [
       {
-        "createdAtBlockNumber": "24969974",
-        "createdAtTimestamp": "1621582792",
-        "id": "0x1",
-        "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210521_1621582778.json"
+        "id": "0x152883c98412293f43af53ac92be26b2b04f197a-0x1",
+        "tokenAddress": "0x152883c98412293f43af53ac92be26b2b04f197a",
+        "tokenID": "0x1",
+        "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/nft/1.json"
       },
       {
-        "createdAtBlockNumber": "25025773",
-        "createdAtTimestamp": "1621820740",
-        "id": "0x2",
-        "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621820401.json"
+        "id": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f-0x1",
+        "tokenAddress": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f",
+        "tokenID": "0x1",
+        "tokenURI": "https://nft.zerogoki.org/robot-nft/1"
       },
       {
-        "createdAtBlockNumber": "25025775",
-        "createdAtTimestamp": "1621820748",
-        "id": "0x3",
-        "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621820730.json"
+        "id": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f-0x10",
+        "tokenAddress": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f",
+        "tokenID": "0x10",
+        "tokenURI": "https://nft.zerogoki.org/robot-nft/16"
       },
       {
-        "createdAtBlockNumber": "25025842",
-        "createdAtTimestamp": "1621821032",
-        "id": "0x4",
-        "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621821021.json"
+        "id": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f-0x11",
+        "tokenAddress": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f",
+        "tokenID": "0x11",
+        "tokenURI": "https://nft.zerogoki.org/robot-nft/17"
       },
       {
-        "createdAtBlockNumber": "25026653",
-        "createdAtTimestamp": "1621824492",
-        "id": "0x5",
-        "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621824482.json"
-      }
-    ],
-    "users": [
-      {
-        "id": "0x05268002807f9c2b68259907f7b3a6b8b3102a3b",
-        "tokens": [
-          {
-            "id": "0xd",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621926388.json"
-          }
-        ]
-      },
-      {
-        "id": "0x8173c81647fc4f49fea287d5ff0e8d8a292121be",
-        "tokens": [
-          {
-            "id": "0x4",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621821021.json"
-          },
-          {
-            "id": "0x6",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621844883.json"
-          },
-          {
-            "id": "0x9",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621912363.json"
-          },
-          {
-            "id": "0xa",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621914899.json"
-          },
-          {
-            "id": "0xb",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621923221.json"
-          },
-          {
-            "id": "0xc",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621925629.json"
-          }
-        ]
-      },
-      {
-        "id": "0xc839eb991094d611e08bc1c236f37551529ae534",
-        "tokens": [
-          {
-            "id": "0x1",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210521_1621582778.json"
-          },
-          {
-            "id": "0x2",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621820401.json"
-          },
-          {
-            "id": "0x3",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621820730.json"
-          },
-          {
-            "id": "0x5",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210524_1621824482.json"
-          },
-          {
-            "id": "0x7",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621909726.json"
-          },
-          {
-            "id": "0x8",
-            "tokenURI": "https://nftbazaar-test.oss-cn-beijing.aliyuncs.com/20210525_1621909763.json"
-          }
-        ]
+        "id": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f-0x12",
+        "tokenAddress": "0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f",
+        "tokenID": "0x12",
+        "tokenURI": "https://nft.zerogoki.org/robot-nft/18"
       }
     ]
   }
 }
 ```
 
-项目中使用的查询语句
+### 项目中使用的查询语句
 
-###不同情况下请求数据的语句将不相同，以下是各种情况获取数据的查询语句
-####1、获取collectibles\On Sale
+不同情况下请求数据的语句将不相同，以下是各种情况获取数据的查询语句
+
+#### 1、获取collectibles\On Sale
 
 ```
 query getCollectibles($owner:Bytes!){
@@ -166,7 +93,7 @@ query getCollectibles($owner:Bytes!){
 ```
 获取内容后将根据offer的返回值进行处理，offer不为空的将同时加入On Sale的列表中
 
-####2、获取created
+#### 2、获取created
 
 ```
 query getCreated($creater:Bytes!){
@@ -193,7 +120,8 @@ query getCreated($creater:Bytes!){
 }
 ```
 
-####3、获取Biding
+#### 3、获取Biding
+
 ```
 query getBidding($bider:Bytes!){
   offers{
@@ -217,7 +145,7 @@ query getBidding($bider:Bytes!){
 
 判断bids的长度大于0则放入bidding的列表中
 
-####4、获取nft详情
+#### 4、获取nft详情
 
 ```
 query getNftDetail($id:ID!){
@@ -271,7 +199,7 @@ query getNftDetail($id:ID!){
 }
 ```
 
-####5、获取nft在售列表
+#### 5、获取nft在售列表
 ```
 query getOffers{
   offers(orderBy:createdAtTimestamp,orderDirection:desc){
