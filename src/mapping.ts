@@ -7,7 +7,7 @@ import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/sche
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRESS = '0x152883c98412293f43af53ac92be26b2b04f197a'
 export const MetaRobot_ADDRESS = '0xdd2ac4a8bcae4faded6fa26141416a5c3b60fa2f'
-export const NFTMarket_ADDRESS = '0x3243A6Cda943fC70ec6d5A59956e013280370626'
+export const NFTMarket_ADDRESS = '0x2ca19e605c428c8b8ff3821944df9f2976b97a21'
 
 function _removeOffer(tokenKey: string): void {
   store.remove("Offer", tokenKey)
