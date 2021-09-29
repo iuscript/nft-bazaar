@@ -101,6 +101,7 @@ export function handleOffered_v3(event: Offered): void {
   offer.seller = event.params.seller
   offer.price = event.params.price
   offer.token = offer.id
+  offer.latestBid = BigInt.fromI32(0)
   offer.paymentToken = event.params.paymentToken
   offer.startTime = event.params.startTime
   offer.endTime = event.params.endTime
@@ -206,6 +207,7 @@ export function handleBidEntered(event: BidEntered): void {
   } else {
     offer.bidders = event.params.fromAddress.toHexString()
   }
+  offer.latestBid = event.params.value
   offer.save()
 
   
