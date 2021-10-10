@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: MetaRobot
-    network: mumbai
+    network: matic
     source:
-      address: '0xdd2ac4A8bcae4FAdEd6fA26141416A5C3B60fa2f'
+      address: '0xC1a1Fbf8CB8d79940Ab5435262f051b1dd146aE6'
       abi: MetaRobot
-      startBlock: 19275530
+      startBlock: 19405785
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -27,11 +27,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: NFTBazaar_v2
-    network: mumbai
+    network: matic
     source:
-      address: '0x152883C98412293F43aF53aC92bE26B2b04f197A'
+      address: '0x5b2F24F14EbB2ce3657346fFe673F264899a5D20'
       abi: NFTBazaar_v2
-      startBlock: 19414213
+      startBlock: 20044695
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -48,11 +48,11 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: NFTMarket_v3
-    network: mumbai
+    network: matic
     source:
-      address: '0x2Ca19E605c428c8B8ff3821944df9F2976b97A21'
+      address: '0x71415b0Fe1627a1678c1B532e997C521366474Ef'
       abi: NFTMarket_v3
-      startBlock: 19453811
+      startBlock: 20045044
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
