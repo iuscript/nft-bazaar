@@ -1,12 +1,14 @@
 import { Address,BigInt, store, log } from '@graphprotocol/graph-ts'
 import { Transfer, NFTBazaar_v2 as NFTBazaarContract } from '../generated/NFTBazaar_v2/NFTBazaar_v2'
 import { Transfer as Transfer_MetaRobot, MetaRobot as MetaRobotContract } from '../generated/MetaRobot/MetaRobot'
+import { Transfer as Transfer_MetaRobot_v2, MetaRobot_v2 as MetaRobotContract_v2 } from '../generated/MetaRobot_v2/MetaRobot_v2'
 import { Offered, Bought, NoLongerForSale, BidEntered, AuctionPass, ChangePrice } from '../generated/NFTMarket_v3/NFTMarket_v3'
 import { User, Nft, Offer, Order, Market, DayData, Bid } from '../generated/schema'
 
 export const ADDRESS_ZERO = '0x0000000000000000000000000000000000000000'
 export const NFTBazaar_ADDRESS = '0x5b2f24f14ebb2ce3657346ffe673f264899a5d20'
 export const MetaRobot_ADDRESS = '0xc1a1fbf8cb8d79940ab5435262f051b1dd146ae6'
+export const MetaRobot_v2_ADDRESS = '0x8748757fe5e3e712cf25cc13b5ab219b1156d5df'
 export const NFTMarket_ADDRESS = '0x71415b0fe1627a1678c1b532e997c521366474ef'
 
 function _removeOffer(tokenKey: string): void {
@@ -70,6 +72,44 @@ export function handleTransfer_MetaRobot(event: Transfer_MetaRobot): void {
     let tokenUri = contract.tokenURI(tokenID)
     nft.tokenID = tokenID.toHexString()
     nft.tokenAddress = Address.fromString(MetaRobot_ADDRESS)
+    nft.tokenURI = tokenUri
+    nft.createdAtTimestamp = event.block.timestamp
+    nft.createdAtBlockNumber = event.block.number
+    nft.transactionHash = event.transaction.hash
+    nft.creater = Address.fromString(ADDRESS_ZERO)
+    nft.holder = user.id
+    if (event.transaction.from.toHexString() != NFTMarket_ADDRESS) {
+      nft.owner = to
+    }
+    nft.save()
+  } else {
+    let nft = Nft.load(nftID)
+    nft.holder = to.toHexString()
+    if (to.toHexString() != NFTMarket_ADDRESS) {
+      nft.owner = to
+    }
+    nft.save()
+  }
+}
+
+export function handleTransfer_MetaRobot_v2(event: Transfer_MetaRobot_v2): void {
+  let from     = event.params.from
+  let to       = event.params.to
+  let tokenID  = event.params.tokenId
+  let contract = MetaRobotContract_v2.bind(Address.fromString(MetaRobot_v2_ADDRESS))
+  let nftID = MetaRobot_v2_ADDRESS.concat('-').concat(tokenID.toHexString())
+
+  let user = User.load(to.toHexString())
+  if (user === null) {
+    user = new User(to.toHexString())
+    user.save()
+  }
+
+  if (from.toHexString() == ADDRESS_ZERO) {
+    let nft = new Nft(nftID)
+    let tokenUri = contract.tokenURI(tokenID)
+    nft.tokenID = tokenID.toHexString()
+    nft.tokenAddress = Address.fromString(MetaRobot_v2_ADDRESS)
     nft.tokenURI = tokenUri
     nft.createdAtTimestamp = event.block.timestamp
     nft.createdAtBlockNumber = event.block.number

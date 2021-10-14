@@ -26,6 +26,27 @@ dataSources:
           handler: handleTransfer_MetaRobot
       file: ./src/mapping.ts
   - kind: ethereum/contract
+    name: MetaRobot_v2
+    network: matic
+    source:
+      address: '0x8748757FE5e3e712Cf25Cc13b5Ab219b1156D5Df'
+      abi: MetaRobot_v2
+      startBlock: 19981104
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - User
+        - Nft
+      abis:
+        - name: MetaRobot_v2
+          file: ./abis/MetaRobot_v2_sol_MetaRobot.abi
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer_MetaRobot_v2
+      file: ./src/mapping.ts
+  - kind: ethereum/contract
     name: NFTBazaar_v2
     network: matic
     source:
